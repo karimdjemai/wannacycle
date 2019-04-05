@@ -1,0 +1,7 @@
+{
+    "name": "karimdjemai/wannacycle",
+    "type": "project",
+    "require": {
+        "slim/slim": "^3.12"
+    }
+}
