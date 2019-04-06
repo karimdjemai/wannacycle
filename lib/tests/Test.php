@@ -1,6 +1,6 @@
 <?php
 
-use WannaCycle\API\Stadtrad\StadtradController;
+use WannaCycle\API\stadtrad\StadtradController;
 
 /**
  * Created by PhpStorm.

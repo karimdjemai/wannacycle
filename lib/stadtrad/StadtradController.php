@@ -29,10 +29,15 @@
         }
 
         /**
-         * @param string $id
-         * @return int The number of bikes avaliable at that station
+         * Transforms a list of Stadtrad ID's into their bike avaliability numbers
+         * @param array $id A list of Stadtrad ID's
+         * @return int A list of the numbers of bikes avaliable at those stations (in the same order)
          */
-        public static function getAvaliability (string $id) {
-            return hp ;
+        public static function getAvaliability (array $ids) {
+            // TODO: This method is a dummy method and returns random avaliabilities. Please fix!
+            for($x = 0; $x < count($ids); $x++) {
+                $ids[$x] = rand(0, 40);
+            }
+            return $ids;
         }
     }
