@@ -2,8 +2,10 @@
 	use \Psr\Http\Message\ServerRequestInterface as Request;
 	use \Psr\Http\Message\ResponseInterface as Response;
 	use WannaCycle\API\HVV\HvvController;
-	
-	$loader = require '../vendor/autoload.php';
+use WannaCycle\API\HVV\HvvLocation;
+use WannaCycle\API\Stadtrad\StadtradController;
+
+$loader = require '../vendor/autoload.php';
 	$loader->addPsr4('WannaCycle\\API\\', '..');
 	
 	$app = new \Slim\App;
@@ -32,6 +34,6 @@
 		]));
 	});
 
-	StadtradController::findStadtradForHvv('U Barmbek');
+	StadtradController::findStadtradForHvv(new HvvLocation());
 	
 	$app->run();
