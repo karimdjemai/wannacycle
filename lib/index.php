@@ -7,17 +7,20 @@
 	$app = new \Slim\App;
 	
 	$app->get('/route', function (Request $request, Response $response, array $args) {
+		$body = $request->getParsedBody();
+		
 		//HVV
-			//get route
-			//all all stations out of route
+		/** @var HvvRoute $route */
+		$route = HvvController::getFullRoute($startStationName, $destinationStationName);
+		
 		
 		//Stadtrad
 			//for all stations out of the route check:
-				//whats the nearest Stadtrad station
+				// whats the nearest Stadtrad station
 				// how many bikes are there
 		  
 		//algorithmus
-			//whats the suggestion 
+			//whats the suggestion
 		
 		//return
 		return $response->getBody()->write(json_encode([
