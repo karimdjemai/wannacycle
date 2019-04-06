@@ -5,11 +5,11 @@
 	require '../vendor/autoload.php';
 	
 	$app = new \Slim\App;
-	$app->get('/hello/{name}', function (Request $request, Response $response, array $args) {
-		$name = $args['name'];
-		$response->getBody()->write("Hello, $name");
+	$app->get('/route', function (Request $request, Response $response, array $args) {
 		
-		return $response;
+		return $response->withBody(json_encode([
+			'status'    =>  'ok'
+		]));
 	});
 	
 	$app->run();
