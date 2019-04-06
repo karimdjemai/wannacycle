@@ -2,7 +2,8 @@
 	namespace WannaCycle\API\HVV;
 	
 	use WannaCycle\API\Coordinate;
-	
+
+
 	/**
 	 * HvvLocation
 	 *
