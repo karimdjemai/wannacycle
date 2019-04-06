@@ -18,15 +18,17 @@
          * @return string The ID of the Stadtrad station next to it. If there is none, the return value is 0.
          */
         public static function findStadtradForHvv (HvvLocation $hvvstation) {
-            $table = fopen(".csv", "r");
-
-            /* This will loop through all the rows until it reaches the end */
-            while($row = fgetcsv($table)) {
-                if (in_array($hvvstation, $row[0])) {
-                    return $row[2];
-                }
-            }
-            return '0';
+	        $csvFile = file(dirname(__FILE__) . '/hvv-stadtrad.csv');
+	        $data = [];
+	        
+	        foreach ($csvFile as $line) {
+		        $data[] = str_getcsv($line);
+		        if (strpos($line, $hvvstation->getName()) !== false) {
+		        	return str_getcsv($line)[1];
+		        }
+	        }
+	        
+	        return 0;
         }
 
         /**
