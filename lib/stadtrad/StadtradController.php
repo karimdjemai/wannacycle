@@ -35,10 +35,50 @@
          * @return int A list of the numbers of bikes avaliable at those stations (in the same order)
          */
         public static function getAvaliability (array $ids) {
+
+
+// Your code here!
+            function executeRESTCall($methode, $adresse, $daten = false)
+            {
+                $curl = curl_init();
+                curl_setopt($curl, CURLOPT_URL, $adresse);
+                curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $methode);
+                if ($daten) {
+                    $head = ['Content-Type: application/text',
+                        'Content-Length: ' . strlen($daten)];
+                    curl_setopt($curl, CURLOPT_HTTPHEADER, $head);
+                    curl_setopt($curl, CURLOPT_POSTFIELDS, $daten);
+                }
+                curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+                return curl_exec($curl);
+            }
+
+            $get_data = executeRESTCall('GET', 'https://geodienste.hamburg.de/HH_WFS_Stadtrad?service=WFS&request=GetFeature&VERSION=1.1.0&typename=stadtrad_stationen&outputFormat=application/geo%2bjson&srsName=EPSG:4326');
+
+            $data = json_decode($get_data, true);
+
+            $subarray = $data[features];
+
+
+            $properties = array_column($subarray, 'properties');
+            $uid = array_column($properties, 'uid');
+
+
+            $idssize = sizeof($ids);
+
+            for ($i = 0; $i < $idssize; $i++) {
+                $ids[$i] = $subarray[array_search($ids[$i], $uid)][properties][anzahl_raeder];
+            }
+
+
+            return $ids;
+
+/*
             // TODO: This method is a dummy method and returns random avaliabilities. Please fix!
             for($x = 0; $x < count($ids); $x++) {
                 $ids[$x] = rand(0, 40);
             }
             return $ids;
+*/
         }
     }
