@@ -1,6 +1,8 @@
 <?php
 	namespace WannaCycle\API\Stadtrad;
 	
+    use WannaCycle\API\HVV\HvvLocation;
+
     /**
      * Created by PhpStorm.
      * User: korbinian
@@ -15,7 +17,7 @@
          * @param string $hvvstation The name of the HVV station
          * @return string The ID of the Stadtrad station next to it. If there is none, the return value is 0.
          */
-        public static function findStadtradForHvv (string $hvvstation) {
+        public static function findStadtradForHvv (HvvLocation $hvvstation) {
             $table = fopen(".csv", "r");
 
             /* This will loop through all the rows until it reaches the end */

@@ -1,7 +1,5 @@
 <?php
 	namespace WannaCycle\API\HVV;
-
-	
 	
 	use WannaCycle\API\Coordinate;
 	
