@@ -27,4 +27,12 @@
             }
             return '0';
         }
+
+        /**
+         * @param string $id
+         * @return int The number of bikes avaliable at that station
+         */
+        public static function getAvaliability (string $id) {
+            return hp ;
+        }
     }
