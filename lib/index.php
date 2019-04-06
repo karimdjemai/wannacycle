@@ -6,8 +6,15 @@
 	
 	$app = new \Slim\App;
 	$app->get('/route', function (Request $request, Response $response, array $args) {
+		//HVV
 		
-		return $response->withBody(json_encode([
+		//Stadtrad
+		
+		//algorithmus
+		
+		
+		//return
+		return $response->getBody()->write(json_encode([
 			'status'    =>  'ok'
 		]));
 	});
