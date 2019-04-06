@@ -29,7 +29,7 @@
 		  
 		//algorithmus
 			//whats the suggestion
-		echo StadtradController::findStadtradForHvv(new HvvLocation('test','test', 'sdfjsdf', 'sdfs', new Coordinate(34,34)));
+		echo StadtradController::findStadtradForHvv(new HvvLocation('U Baumwall','Hamburg', '12345', 'station', new Coordinate(34,34)));
 		
 		//return
 		return $response->getBody()->write(json_encode([
