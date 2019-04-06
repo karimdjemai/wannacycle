@@ -1,8 +1,7 @@
 <?php
 	namespace WannaCycle\API\HVV;
+
 	
-	use HvvLocation;
-	use HvvRoute;
 	
 	/**
 	 * HvvController

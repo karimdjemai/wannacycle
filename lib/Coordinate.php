@@ -1,5 +1,5 @@
 <?php
-	
+	namespace WannaCycle\API;
 	/**
 	 * Coordinate
 	 * Represenation of a Coordinate

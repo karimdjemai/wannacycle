@@ -1,4 +1,5 @@
 <?php
+	namespace WannaCycle\API\HVV;
 	
 	/**
 	 * HvvRoute
