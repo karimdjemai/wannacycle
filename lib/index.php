@@ -5,6 +5,7 @@
 	require '../vendor/autoload.php';
 	
 	$app = new \Slim\App;
+	
 	$app->get('/route', function (Request $request, Response $response, array $args) {
 		//HVV
 		
