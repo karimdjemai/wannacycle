@@ -27,5 +27,7 @@
 			'status'    =>  'ok'
 		]));
 	});
+
+	StadtradController::findStadtradForHvv('U Barmbek')
 	
 	$app->run();
