@@ -32,9 +32,9 @@
         }
 
         /**
-         * Transforms a list of Stadtrad ID's into their bike avaliability numbers
+         * Transforms a list of Stadtrad ID's into their bike avaliability numbers. ID's that are 0 shall be ignored.
          * @param array $id A list of Stadtrad ID's
-         * @return array A list of the numbers of bikes avaliable at those stations (in the same order)
+         * @return array A array of the IDs and numbers of bikes avaliable at those stations (in the same order). The ID's that are 0 get avaliability -1.
          */
         public static function getAvaliability (array $ids) {
             $get_data = self::executeRESTCall('GET', 'https://geodienste.hamburg.de/HH_WFS_Stadtrad?service=WFS&request=GetFeature&VERSION=1.1.0&typename=stadtrad_stationen&outputFormat=application/geo%2bjson&srsName=EPSG:4326');
@@ -54,9 +54,16 @@
 //                $ids[$i] = $subarray[array_search($ids[$i], $uid)]['properties']['anzahl_raeder'];
 //            }
 	        $res = [];
-            
+            $count = -1;
+
             foreach ($ids as $id) {
-	            $res[$id] = $subarray[array_search($id, $uid)]['properties']['anzahl_raeder'];
+                if($id !== 0) {
+                    $res[$id] = $subarray[array_search($id, $uid)]['properties']['anzahl_raeder'];
+                }
+                else {
+                    $res[$count] = -1;
+                    $count = $count - 1;
+                }
             }
             
             return $res;
@@ -76,4 +83,19 @@
 		    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		    return curl_exec($curl);
 	    }
+
+        /**
+         * @param $route The HvvRoute object we want to analyze
+         */
+        protected static function routeToAvaliabilities ($route) {
+            array(int)
+            $stadtradIDs = [];
+            foreach ($route as $location) {
+                $stadtradID = self::findStadtradForHvv($location->getName());
+                array_push($stadtradIDs, $stadtradID);
+            }
+            foreach ($stadtradIDs as $stadtradID) {
+
+            }
+        }
     }
