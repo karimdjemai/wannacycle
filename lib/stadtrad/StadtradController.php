@@ -1,13 +1,12 @@
 <?php
-    namespace WannaCycle\API\Stadtrad;
-
+	namespace WannaCycle\API\Stadtrad;
+	
     /**
      * Created by PhpStorm.
      * User: korbinian
      * Date: 4/6/19
      * Time: 6:44 AM
      */
-
     class StadtradController
     {
 

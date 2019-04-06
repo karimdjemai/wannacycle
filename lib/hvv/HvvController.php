@@ -3,6 +3,8 @@
 
 	
 	
+	use WannaCycle\API\Coordinate;
+	
 	/**
 	 * HvvController
 	 * statically calls the Hvv api methods:
@@ -32,5 +34,9 @@
 			$route->full();
 			
 			return $route;
+		}
+		
+		public static function departureCourse() {
+			//wird in der full methode aufgerufen um die Route zu vervollständigen
 		}
 	}

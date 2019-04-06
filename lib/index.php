@@ -1,11 +1,13 @@
 <?php
 	use \Psr\Http\Message\ServerRequestInterface as Request;
 	use \Psr\Http\Message\ResponseInterface as Response;
+	use WannaCycle\API\Coordinate;
 	use WannaCycle\API\HVV\HvvController;
-use WannaCycle\API\HVV\HvvLocation;
-use WannaCycle\API\Stadtrad\StadtradController;
-
-$loader = require '../vendor/autoload.php';
+	use WannaCycle\API\HVV\HvvLocation;
+	use WannaCycle\API\HVV\HvvRoute;
+	use WannaCycle\API\Stadtrad\StadtradController;
+	
+	$loader = require '../vendor/autoload.php';
 	$loader->addPsr4('WannaCycle\\API\\', '..');
 	
 	$app = new \Slim\App;
@@ -27,13 +29,13 @@ $loader = require '../vendor/autoload.php';
 		  
 		//algorithmus
 			//whats the suggestion
+		echo StadtradController::findStadtradForHvv(new HvvLocation('test','test', 'sdfjsdf', 'sdfs', new Coordinate(34,34)));
 		
 		//return
 		return $response->getBody()->write(json_encode([
 			'status'    =>  'ok'
 		]));
 	});
-
-	StadtradController::findStadtradForHvv(new HvvLocation());
+	
 	
 	$app->run();
