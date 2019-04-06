@@ -1,13 +1,17 @@
 <?php
 	use \Psr\Http\Message\ServerRequestInterface as Request;
 	use \Psr\Http\Message\ResponseInterface as Response;
+	use WannaCycle\API\HVV\HvvController;
 	
-	require '../vendor/autoload.php';
+	$loader = require '../vendor/autoload.php';
+	$loader->addPsr4('WannaCycle\\API\\', '..');
 	
 	$app = new \Slim\App;
 	
-	$app->get('/route', function (Request $request, Response $response, array $args) {
+	$app->post('/route', function (Request $request, Response $response, array $args) {
 		$body = $request->getParsedBody();
+		$startStationName = $body['start'];
+		$destinationStationName = $body['destinantion'];
 		
 		//HVV
 		/** @var HvvRoute $route */
