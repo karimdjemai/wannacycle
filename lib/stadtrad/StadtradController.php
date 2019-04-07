@@ -92,7 +92,7 @@
         protected static function routeToAvaliabilities ($route) {
             array(int)
             $stadtradIDs = [];
-            foreach ($route as $location) {
+            foreach ($route as $location) {  //TODO: assumes data structure that doesn't exist
                 $stadtradID = self::findStadtradForHvv($location->getName());
                 array_push($stadtradIDs, $stadtradID);
             }
