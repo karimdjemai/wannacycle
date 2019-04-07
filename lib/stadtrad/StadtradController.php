@@ -103,4 +103,28 @@
             }
             return $reslist;
         }
+
+        /**
+         * @param $avaliabilityList The list with avaliabilities returned from routeToAvaliabilities (-1 means no Stadtrad station exists)
+         * @return mixed The indexes where you have to take and return the Stadtrad and the score how good it is. -1,-1,1 if not possible/sensible.
+         */
+        protected static function returnBestStadtradIndexes ($avaliabilityList)
+        {
+            $bestResult = [-1, -1, 1];
+            for ($i = 0; $i < sizeof($avaliabilityList); $i++){
+                $avaliability = $avaliabilityList[$i];
+                if ($avaliability < 2){
+                    break;
+                }
+                for($ii = $i+1; $ii < sizeof($avaliabilityList); $ii++){
+                    $comparevalue = $avaliabilityList[$ii];
+                    $score = $avaliability / ($comparevalue + 1);
+                    if ($score > $bestResult[2]) {
+                        $bestResult = [$i, $ii, $score];
+                    }
+                }
+            }
+            return $bestResult;
+        }
+
     }
