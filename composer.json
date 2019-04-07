@@ -1,7 +1,14 @@
 {
     "name": "karimdjemai/wannacycle",
     "type": "project",
-    "require": {
-        "slim/slim": "^3.12"
-    }
+	"autoload": {
+		"psr-4": {
+			"WannaCycle\\API\\": "lib"
+		}
+	},
+	"require": {
+        "slim/slim": "^3.12",
+		"ext-json": "*",
+		"ext-curl": "*"
+	}
 }
