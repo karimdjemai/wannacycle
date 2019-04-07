@@ -49,10 +49,7 @@
 
 
             $idssize = sizeof($ids);
-
-//            for ($i = 0; $i < $idssize; $i++) {
-//                $ids[$i] = $subarray[array_search($ids[$i], $uid)]['properties']['anzahl_raeder'];
-//            }
+            
 	        $res = [];
             
             foreach ($ids as $id) {

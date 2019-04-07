@@ -2,8 +2,7 @@
 	namespace WannaCycle\API\HVV;
 	
 	use WannaCycle\API\Coordinate;
-
-
+	
 	/**
 	 * HvvLocation
 	 *
@@ -25,13 +24,19 @@
 		protected $id;
 		protected $type;
 		protected $coordinate;
+		protected $isTransfer;
 		
-		public function __construct(string $name, string $city, string $id, string $type, Coordinate $coordinate) {
+		public static function fromArray(array $array) {
+			return new self($array['name'], $array['city'], $array['id'], 'station', new Coordinate(0,0), true);
+		}
+		
+		public function __construct(string $name, string $city, string $id, string $type, Coordinate $coordinate, bool $isTransfer) {
 			$this->name = $name;
 			$this->city = $city;
 			$this->id = $id;
 			$this->type = $type;
 			$this->coordinate = $coordinate;
+			$this->isTransfer = $isTransfer;
 		}
 		
 		/**
