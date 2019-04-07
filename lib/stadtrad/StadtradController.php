@@ -32,9 +32,9 @@
         }
 
         /**
-         * Transforms a list of Stadtrad ID's into their bike avaliability numbers
+         * Transforms a list of Stadtrad ID's into their bike avaliability numbers. ID's that are 0 shall be ignored.
          * @param array $id A list of Stadtrad ID's
-         * @return array A list of the numbers of bikes avaliable at those stations (in the same order)
+         * @return array A array of the IDs and numbers of bikes avaliable at those stations (in the same order). The ID's that are 0 get avaliability -1.
          */
         public static function getAvaliability (array $ids) {
             $get_data = self::executeRESTCall('GET', 'https://geodienste.hamburg.de/HH_WFS_Stadtrad?service=WFS&request=GetFeature&VERSION=1.1.0&typename=stadtrad_stationen&outputFormat=application/geo%2bjson&srsName=EPSG:4326');
@@ -51,9 +51,16 @@
             $idssize = sizeof($ids);
             
 	        $res = [];
-            
+            $count = -1;
+
             foreach ($ids as $id) {
-	            $res[$id] = $subarray[array_search($id, $uid)]['properties']['anzahl_raeder'];
+                if($id !== 0) {
+                    $res[$id] = $subarray[array_search($id, $uid)]['properties']['anzahl_raeder'];
+                }
+                else {
+                    $res[$count] = -1;
+                    $count = $count - 1;
+                }
             }
             
             return $res;
@@ -73,4 +80,48 @@
 		    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		    return curl_exec($curl);
 	    }
+
+        /**
+         * Transforms a HvvRoute object into a list of avaliabilities
+         * @param $route The HvvRoute object we want to analyze
+         * @return array A list of avaliabilities. If there is no Stadtrad station on the current route stop, -1 is returned for that stop.
+         */
+        protected static function routeToAvaliabilities ($route) {
+            array(int)
+            $stadtradIDs = [];
+            foreach ($route as $location) {
+                $stadtradID = self::findStadtradForHvv($location->getName());
+                array_push($stadtradIDs, $stadtradID);
+            }
+            $idlist = self::getAvaliability($stadtradIDs);
+            $reslist = [];
+            foreach($idlist as $listitem) {
+                array_push($reslist, $listitem[1]);
+            }
+            return $reslist;
+        }
+
+        /**
+         * @param $avaliabilityList The list with avaliabilities returned from routeToAvaliabilities (-1 means no Stadtrad station exists)
+         * @return mixed The indexes where you have to take and return the Stadtrad and the score how good it is. -1,-1,1 if not possible/sensible.
+         */
+        protected static function returnBestStadtradIndexes ($avaliabilityList)
+        {
+            $bestResult = [-1, -1, 1];
+            for ($i = 0; $i < sizeof($avaliabilityList); $i++){
+                $avaliability = $avaliabilityList[$i];
+                if ($avaliability < 2){
+                    break;
+                }
+                for($ii = $i+1; $ii < sizeof($avaliabilityList); $ii++){
+                    $comparevalue = $avaliabilityList[$ii];
+                    $score = $avaliability / ($comparevalue + 1);
+                    if ($score > $bestResult[2]) {
+                        $bestResult = [$i, $ii, $score];
+                    }
+                }
+            }
+            return $bestResult;
+        }
+
     }
