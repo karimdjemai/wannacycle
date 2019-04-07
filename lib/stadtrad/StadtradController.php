@@ -85,7 +85,9 @@
 	    }
 
         /**
+         * Transforms a HvvRoute object into a list of avaliabilities
          * @param $route The HvvRoute object we want to analyze
+         * @return array A list of avaliabilities. If there is no Stadtrad station on the current route stop, -1 is returned for that stop.
          */
         protected static function routeToAvaliabilities ($route) {
             array(int)
@@ -94,8 +96,11 @@
                 $stadtradID = self::findStadtradForHvv($location->getName());
                 array_push($stadtradIDs, $stadtradID);
             }
-            foreach ($stadtradIDs as $stadtradID) {
-
+            $idlist = self::getAvaliability($stadtradIDs);
+            $reslist = [];
+            foreach($idlist as $listitem) {
+                array_push($reslist, $listitem[1]);
             }
+            return $reslist;
         }
     }
