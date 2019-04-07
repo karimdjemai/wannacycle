@@ -10,25 +10,18 @@
 	 * @date       2019-04-06
 	 */
 	class HvvRoute {
-		protected $start;
-		protected $destination;
+		protected $scheduleElements;
+		protected $duration;
 		
 		/**
 		 * HvvRoute constructor.
 		 *
-		 * @param $start
-		 * @param $destination
+		 * @param $scheduleElements
+		 * @param $duration
 		 */
-		public function __construct(HvvLocation $start, HvvLocation $destination) {
-			$this->start = $start;
-			$this->destination = $destination;
+		public function __construct(array $scheduleElements, int $duration) {
+			$this->scheduleElements = $scheduleElements;
+			$this->duration = $duration;
 		}
-		
-		public function full() {
-		
-		}
-		
-		
-		
 		
 	}

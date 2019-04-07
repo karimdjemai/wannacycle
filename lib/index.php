@@ -16,13 +16,10 @@
 	]);
 	
 	$app->get('/route', function (Request $request, Response $response, array $args) {
-		//$body = $request->getParsedBody();
-		//$startStationName = $body['start'];
-		//$destinationStationName = $body['destinantion'];
 		
 		//HVV
 		/** @var HvvRoute $route */
-		$route = HvvController::getFullRoute('sd', 'sdsd');
+		$route = HvvController::getRoute('Hagenbecks Tierpark', 'Barmbek');
 		
 		
 		//Stadtrad
@@ -33,12 +30,14 @@
 		//algorithmus
 			//whats the suggestion
 
-		echo StadtradController::findStadtradForHvv(new HvvLocation('U Baumwall','Hamburg', '12345', 'station', new Coordinate(34,34)));
+		//echo StadtradController::findStadtradForHvv(new HvvLocation('U Baumwall','Hamburg', '12345', 'station', new Coordinate(34,34)));
+		//HvvController::getRoute('fsdf', 'asdasd');
+		
 		
 		//return
-		return $response->getBody()->write(json_encode([
-			'status'    =>  'ok'
-		]));
+		return $response->getBody()->write(json_encode(
+			HvvController::toAlgArray($route)
+		));
 	});
 	
 	$app->run();
