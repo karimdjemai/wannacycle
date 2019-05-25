@@ -86,20 +86,5 @@
 			$hmac = hash_hmac('sha1', $requestBody, $PASS, true);
 			return base64_encode($hmac);
 		}
-		
-		public function toOutputArray(array $route) {
-		
-		}
-		
-		public static function toAlgArray(array $route) {
-			//liste an namen
-			$list = [];
-			
-			foreach ($schedule['intermediateStops'] as $stop) {
-				$list[] = $stop['name'];
-			}
-			
-			return $list;
-		}
  	
 	}
