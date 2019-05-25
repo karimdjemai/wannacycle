@@ -36,7 +36,7 @@
 		
 		//return
 		return $response->getBody()->write(json_encode(
-			HvvController::toAlgArray($route)
+			HvvRoute::toAlgArray($route)
 		));
 	});
 	
