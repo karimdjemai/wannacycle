@@ -19,7 +19,7 @@
 		
 		//HVV
 		/** @var HvvRoute $route */
-		$route = HvvController::getRoute('Hagenbecks Tierpark', 'Barmbek');
+		$route = HvvRoute::__construct(HvvController::getRoute('Hagenbecks Tierpark', 'Barmbek', ['heute','jetzt']));
 		
 		
 		//Stadtrad
