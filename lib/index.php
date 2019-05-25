@@ -19,8 +19,9 @@
 		
 		//HVV
 		/** @var HvvRoute $route */
-		$route = HvvController::getRoute('Hagenbecks Tierpark', 'Barmbek');
 		
+		// Dummy-route
+		$route = HvvRoute::__construct(HvvController::getRoute('Hagenbecks Tierpark', 'Barmbek', ['heute', 'jetzt']));
 		
 		//Stadtrad
 			//for all stations out of the route check:
@@ -35,9 +36,7 @@
 		
 		
 		//return
-		return $response->getBody()->write(json_encode(
-			HvvController::toAlgArray($route)
-		));
+		return $response->getBody()->write(json_encode($route));
 	});
 	
 	$app->run();
