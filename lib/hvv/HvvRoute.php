@@ -33,8 +33,8 @@
         public function toOutputArray(array $route) {
             
         }
-		
-		public static function toAlgArray(array $route) {
+        
+        public static function toAlgArray(array $route) {
 			//liste an namen
 			$list = [];
 
@@ -45,6 +45,7 @@
 					$list[] = $stop['name'];
 
 				}
+			}
 			return $list;
 		}
 		
