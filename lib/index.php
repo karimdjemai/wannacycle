@@ -24,11 +24,13 @@
 		
 		//Stadtrad
 			//for all stations out of the route check:
-				// whats the nearest Stadtrad station
-				// how many bikes are there
-		  
+				// whats the nearest Stadtrad station -> StadtradController internal
+				// how many bikes are there -> StadtradController internal
+		
 		//algorithmus
-			//whats the suggestion
+			//whats the suggestion		
+        $bestStadtradIndexes = StadtradController::returnBestStadtradIndexes(StadtdradController::routeToAvaliabilities(HvvRoute::toAlgArray($route)));
+
 
 		//echo StadtradController::findStadtradForHvv(new HvvLocation('U Baumwall','Hamburg', '12345', 'station', new Coordinate(34,34)));
 		//HvvController::getRoute('fsdf', 'asdasd');
