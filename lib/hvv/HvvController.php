@@ -95,10 +95,8 @@
 			//liste an namen
 			$list = [];
 			
-			foreach ($route['schedules'][0]['scheduleElements'] as $schedule) {
-				foreach ($schedule['intermediateStops'] as $stop) {
-					$list[] = $stop['name'];
-				}
+			foreach ($schedule['intermediateStops'] as $stop) {
+				$list[] = $stop['name'];
 			}
 			
 			return $list;
