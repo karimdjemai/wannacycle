@@ -43,7 +43,7 @@
 				'time'              =>  $GTITime,
 				'timeIsDeparture'   =>  true,
 				'intermediateStops' =>  true,
-				'numberOfSchedules' =>  3
+				'numberOfSchedules' =>  1
 			];
 			
 			$response = self::executeRESTCall('POST', self::URL . 'getRoute',  $test = json_encode($body));
