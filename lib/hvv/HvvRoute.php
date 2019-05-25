@@ -28,5 +28,24 @@
 			$this->start = $HvvRoute[start];
 			$this->dest = $HvvRoute[dest];
 		}
+        
+        
+        public function toOutputArray(array $route) {
+            
+        }
+		
+		public static function toAlgArray(array $route) {
+			//liste an namen
+			$list = [];
+
+			foreach ($route['scheduleElements'] as $schedule) {
+	
+				foreach ($schedule['intermediateStops'] as $stop) {
+	
+					$list[] = $stop['name'];
+
+				}
+			return $list;
+		}
 		
 	}
