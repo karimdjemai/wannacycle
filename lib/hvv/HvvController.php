@@ -33,15 +33,17 @@
 			return $assoc = json_decode($response, true);
 		}
 		
-		public static function getRoute(string $startStationName, string $destinationStationName) {
+		public static function getRoute(string $startStationName, string $destinationStationName, $GTITime) {
 			$startStation = self::checkName($startStationName);
 			$destStation =   self::checkName($destinationStationName);
 			
 			$body = [
 				'start'             =>  $startStation['results'][0],
 				'dest'              =>  $destStation['results'][0],
+				'time'              =>  $GTITime,
+				'timeIsDeparture'   =>  true,
 				'intermediateStops' =>  true,
-				'numberOfSchedules' =>  1
+				'numberOfSchedules' =>  3
 			];
 			
 			$response = self::executeRESTCall('POST', self::URL . 'getRoute',  $test = json_encode($body));
