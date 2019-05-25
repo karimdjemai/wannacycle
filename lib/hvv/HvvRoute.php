@@ -12,16 +12,21 @@
 	class HvvRoute {
 		protected $scheduleElements;
 		protected $duration;
-		
+        protected $routeID;
+        protected $start;
+        protected $dest;
+        
 		/**
 		 * HvvRoute constructor.
 		 *
-		 * @param $scheduleElements
-		 * @param $duration
+		 * @param HvvRoute 'Schedule'-JSON (GTI-API-doc 2.3.7) als Array
 		 */
-		public function __construct(array $scheduleElements, int $duration) {
-			$this->scheduleElements = $scheduleElements;
-			$this->duration = $duration;
+		public function __construct(array $HvvRoute) {
+			$this->scheduleElements = $HvvRoute[scheduleElements];
+			$this->routeID = $HvvRoute[routeID];
+			$this->duration = $HvvRoute[time];
+			$this->start = $HvvRoute[start];
+			$this->dest = $HvvRoute[dest];
 		}
 		
 	}
