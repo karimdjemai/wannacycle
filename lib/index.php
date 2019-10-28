@@ -14,16 +14,17 @@
 		'debug' =>  true
 	]);
 	
-	$app->get('/route', function (Request $request, Response $response, array $args) {
+	$app->post('/route', function (Request $request, Response $response, array $args) {
+		$body = $request->getParsedBody();
+		$startStationName = $body['start'];
+		$destinationStationName = $body['destinantion'];
 		
 		//HVV
 		/** @var HvvRoute $route */
-		$route = HvvController::getRoute('Hagenbecks Tierpark', 'Barmbek', ['heute','jetzt']);
-
-		$array = HvvController::toAlgArray($route);
-		$stadtradStations = StadtradController::returnBestStadtradIndexes(StadtradController::routeToAvaliabilities($array));
+//		$route = HvvController::getFullRoute('Barmbek', 'S Stellingen');
 		
-		$endRoute = [];
+		var_dump(HvvController::checkName('Barmbek'));
+
 		
 		//Stadtrad
 			//for all stations out of the route check:
@@ -31,15 +32,10 @@
 				// how many bikes are there -> StadtradController internal
 		
 		//algorithmus
-			//whats the suggestion		
-        $bestStadtradIndexes = StadtradController::returnBestStadtradIndexes(StadtdradController::routeToAvaliabilities(HvvRoute::toAlgArray($route)));
-
-
-		//echo StadtradController::findStadtradForHvv(new HvvLocation('U Baumwall','Hamburg', '12345', 'station', new Coordinate(34,34)));
-		//HvvController::getRoute('fsdf', 'asdasd');
-		
-		}
-		
+			//whats the suggestion
+//
+//		echo StadtradController::findStadtradForHvv(new HvvLocation('U Baumwall','Hamburg', '12345', 'station', new Coordinate(34,34)));
+//
 		//return
 		return $response->getBody()->write(json_encode(
 			HvvRoute::toAlgArray($route)

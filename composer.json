@@ -9,6 +9,7 @@
 	"require": {
         "slim/slim": "^3.12",
 		"ext-json": "*",
-		"ext-curl": "*"
+		"ext-curl": "*",
+        "mashape/unirest-php": "^3.0"
 	}
 }

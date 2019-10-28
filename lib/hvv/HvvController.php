@@ -1,6 +1,7 @@
 <?php
 	namespace WannaCycle\API\HVV;
 	
+	use Unirest\Request;
 	use WannaCycle\API\Coordinate;
 	
 	/**
@@ -14,7 +15,7 @@
 	 */
 	class HvvController {
 		//const URL = 'http://requestbin.fullcontact.com/so87zuso';
-		const URL = 'http://api-hack.geofox.de/gti/public/';
+		const URL = 'http://api-test.geofox.de/gti/public/';
 		
 		/**
 		 * Calls hvv apis method checkname and returnes a HvvLocation or null if none is found.
@@ -29,8 +30,7 @@
 				'maxList'   =>  1
 			];
 			
-			$response = self::executeRESTCall('POST', self::URL . 'checkName',  $test = json_encode($body));
-			return $assoc = json_decode($response, true);
+			return self::executeRESTCall('checkName', $body);
 		}
 		
 		public static function getRoute(string $startStationName, string $destinationStationName, $GTITime) {
@@ -56,62 +56,53 @@
 		
 		}
 		
-		protected static function executeRESTCall($methode, $adresse, string $body) {
-			$curl = curl_init();
+		protected static function executeRESTCall($methode, array $body) {
+			$bodyString = json_encode($body);
 			
-			$USER = 'uni-hack';
-			$PASS = '';
+			$signatur = base64_encode(hash_hmac('sha1', $bodyString, 'Q(bxDB}?myFC', true));
 			
-			$signature = self::mkSignature($PASS, $body);
+			$headers = [
+				'Accept'    =>  'application/json',
+				'Content-Type'          =>  'application/json;charset=UTF-8',
+				'geofox-auth-user'          =>  'uni_hh',
+				'geofox-auth-signature'          =>  $signatur
+			];
 			
-			curl_setopt_array($curl, [
-				CURLOPT_RETURNTRANSFER => 1,
-				CURLOPT_URL => $adresse,
-				CURLOPT_USERAGENT => 'curl.7.61.0',
-				CURLOPT_POST => 1,
-				CURLOPT_HTTPHEADER => [
-					'Accept: application/json',
-					'Content-Type: application/json;charset=UTF-8',
-					'Geofox-Auth-Type: ' . $USER,
-					'Geofox-Auth-User: uni-hack',
-					'Geofox-Auth-Signature: ' . $signature
-				],
-				CURLOPT_POSTFIELDS => $body
-			]);
-			
-			return curl_exec($curl);
+			$user = 'uni_hh';
+			return Request::post(self::URL . '/' . $methode, $headers, $body);
 		}
+//
+//		protected static function mkSignature($PASS, $requestBody) {
+//			$hmac = hash_hmac('sha1', $requestBody, $PASS, true);
+//			return base64_encode($hmac);
+//		}
 		
-		protected static function mkSignature($PASS, $requestBody) {
-			$hmac = hash_hmac('sha1', $requestBody, $PASS, true);
-			return base64_encode($hmac);
-		}
-		
+		// die anzahl der Stadträder zur aktuelle zeit soll mit der Anzahl der Stadträder zur ankunftszeit aus der Prognosen CSV gezogen werden
+		// die differenz wird berechnetund dann als return wiedergegeben.
+//		public static function makePrognose($time, $arrivalTime) {
+//
+//		    $csvFile = file(dirname(__FILE__) . '/PrognosenDummy.csv');
+//
+//
+
 		public function toOutputArray(array $route) {
 		
 		}
 		
-		public static function toAlgArray(array $route) {
-			//liste an namen
-			$list = [];
-			
-			$list[] = [$route['schedules'][0]['scheduleElements'][0]['from']['name'], true];
-			foreach ($route['schedules'][0]['scheduleElements'] as $schedule) {
-				foreach ($schedule['intermediateStops'] as $stop) {
-					$list[] = [$stop['name'], false];
-				}
-				$list[] = [$schedule['to']['name'], true];
-			}
-			
-			return $list;
-		// die anzahl der Stadträder zur aktuelle zeit soll mit der Anzahl der Stadträder zur ankunftszeit aus der Prognosen CSV gezogen werden
-		// die differenz wird berechnetund dann als return wiedergegeben.
-		public static function makePrognose($time, $arrivalTime) {
-		    
-		    $csvFile = file(dirname(__FILE__) . '/PrognosenDummy.csv');
-		    
-		    
-		}
+//		public static function toAlgArray(array $route) {
+//			//liste an namen
+//			$list = [];
+//
+//			$list[] = [$route['schedules'][0]['scheduleElements'][0]['from']['name'], true];
+//			foreach ($route['schedules'][0]['scheduleElements'] as $schedule) {
+//				foreach ($schedule['intermediateStops'] as $stop) {
+//					$list[] = [$stop['name'], false];
+//				}
+//				$list[] = [$schedule['to']['name'], true];
+//			}
+//
+//			return $list;
+//		}
 		
 //		public static function buildNewRoute(array $route, int $inStation, int $outStation) {
 //			if ($inStation == -1) {
@@ -131,5 +122,5 @@
 //			}
 //
 //		}
- 	
+ 
 	}
