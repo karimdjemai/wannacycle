@@ -87,6 +87,23 @@
 			return base64_encode($hmac);
 		}
 		
+		public function toOutputArray(array $route) {
+		
+		}
+		
+		public static function toAlgArray(array $route) {
+			//liste an namen
+			$list = [];
+			
+			$list[] = [$route['schedules'][0]['scheduleElements'][0]['from']['name'], true];
+			foreach ($route['schedules'][0]['scheduleElements'] as $schedule) {
+				foreach ($schedule['intermediateStops'] as $stop) {
+					$list[] = [$stop['name'], false];
+				}
+				$list[] = [$schedule['to']['name'], true];
+			}
+			
+			return $list;
 		// die anzahl der Stadträder zur aktuelle zeit soll mit der Anzahl der Stadträder zur ankunftszeit aus der Prognosen CSV gezogen werden
 		// die differenz wird berechnetund dann als return wiedergegeben.
 		public static function makePrognose($time, $arrivalTime) {
@@ -95,5 +112,24 @@
 		    
 		    
 		}
+		
+//		public static function buildNewRoute(array $route, int $inStation, int $outStation) {
+//			if ($inStation == -1) {
+//				return $route;
+//			}
+//
+//			$counter = 0;
+//			foreach ($route['schedules'][0]['scheduleElements'] as $schedule) {
+//				$blockLength = count($schedule['intermediateStops']) + 1;
+//
+//				if ($blockLength < $inStation) {
+//					$counter += $blockLength;
+//					break;
+//				} else {
+//					$schedule['dest'] =
+//				}
+//			}
+//
+//		}
  	
 	}
