@@ -22,7 +22,7 @@
 		 *
 		 * @param string $name
 		 *
-		 * @return HvvLocation
+		 * @return array
 		 */
 		public static function checkName(string $name) {
 			$body = [
@@ -32,23 +32,23 @@
 				'maxList'   =>  1
 			];
 			
-			return HvvLocation::fromArray((array) self::executeRESTCall('checkName', $body)->results[0]);
+			return (array) self::executeRESTCall('checkName', $body)->results[0];
 		}
 		
 		public static function getRoute(string $startStationName, string $destinationStationName, $GTITime) {
-			$startStation = self::checkName($startStationName);
+			$startStation =  self::checkName($startStationName);
 			$destStation =   self::checkName($destinationStationName);
 			
 			$body = [
-				'start'             =>  $startStation['results'][0],
-				'dest'              =>  $destStation['results'][0],
+				'start'             =>  $startStation,
+				'dest'              =>  $destStation,
 				'time'              =>  $GTITime,
 				'timeIsDeparture'   =>  true,
 				'intermediateStops' =>  true,
 				'numberOfSchedules' =>  1
 			];
 			
-			$response = self::executeRESTCall('POST', self::URL . 'getRoute',  $test = json_encode($body));
+			$response = self::executeRESTCall('getRoute', $body);
 			$assoc = json_decode($response, true);
 			
 			return $assoc;
@@ -95,7 +95,6 @@
 //		public static function makePrognose($time, $arrivalTime) {
 //
 //		    $csvFile = file(dirname(__FILE__) . '/PrognosenDummy.csv');
-//
 //
 
 		public function toOutputArray(array $route) {
