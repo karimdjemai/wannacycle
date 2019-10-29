@@ -15,12 +15,14 @@
 	 */
 	class HvvController {
 		//const URL = 'http://requestbin.fullcontact.com/so87zuso';
-		const URL = 'http://api-test.geofox.de/gti/public/';
+		const URL = 'http://api-test.geofox.de/gti/public';
 		
 		/**
 		 * Calls hvv apis method checkname and returnes a HvvLocation or null if none is found.
+		 *
 		 * @param string $name
-		 * @return array response
+		 *
+		 * @return HvvLocation
 		 */
 		public static function checkName(string $name) {
 			$body = [
@@ -30,7 +32,7 @@
 				'maxList'   =>  1
 			];
 			
-			return self::executeRESTCall('checkName', $body);
+			return HvvLocation::fromArray((array) self::executeRESTCall('checkName', $body)->results[0]);
 		}
 		
 		public static function getRoute(string $startStationName, string $destinationStationName, $GTITime) {
@@ -56,7 +58,15 @@
 		
 		}
 		
-		protected static function executeRESTCall($methode, array $body) {
+		/**
+		 * Call a method in Geofox hvv api
+		 *
+		 * @param string $methode
+		 * @param array  $body
+		 *
+		 * @return \Unirest\Response
+		 */
+		protected static function executeRESTCall(string $methode, array $body) {
 			$bodyString = json_encode($body);
 			
 			$signatur = base64_encode(hash_hmac('sha1', $bodyString, 'Q(bxDB}?myFC', true));
@@ -69,7 +79,10 @@
 			];
 			
 			$user = 'uni_hh';
-			return Request::post(self::URL . '/' . $methode, $headers, $body);
+			
+			$resBody = Request::post(self::URL . '/' . $methode, $headers, $bodyString)->body;
+			
+			return $resBody;
 		}
 //
 //		protected static function mkSignature($PASS, $requestBody) {

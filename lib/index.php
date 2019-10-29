@@ -23,8 +23,7 @@
 		/** @var HvvRoute $route */
 //		$route = HvvController::getFullRoute('Barmbek', 'S Stellingen');
 		
-		var_dump(HvvController::checkName('Barmbek'));
-
+		HvvController::getRoute('Barmbek', 'Hagenbecks Tierpark', 'now');
 		
 		//Stadtrad
 			//for all stations out of the route check:
