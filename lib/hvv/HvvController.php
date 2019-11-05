@@ -35,13 +35,13 @@
 			return (array) self::executeRESTCall('checkName', $body)->results[0];
 		}
 		
-		public static function getRoute(string $startStationName, string $destinationStationName, $time) {
+		public static function getRoute(string $startStationName, string $destinationStationName, string $time = null ) {
 			$startStation =  self::checkName($startStationName);
 			$destStation =   self::checkName($destinationStationName);
 			
 			$GTITime = [
 				'date'  =>  'heute',
-				'time'  =>  'jetzt'
+				'time'  =>  $time ? $time : 'jetzt'
 			];
 			
 			$body = [
@@ -54,14 +54,67 @@
 			];
 			
 			$response = self::executeRESTCall('getRoute', $body);
-			$assoc = json_decode($response, true);
 			
-			return $assoc;
+			return $response->schedules;
 		}
 		
 		protected  static function filterDoubles() {
 		
 		}
+		
+		
+//
+//		protected static function mkSignature($PASS, $requestBody) {
+//			$hmac = hash_hmac('sha1', $requestBody, $PASS, true);
+//			return base64_encode($hmac);
+//		}
+		
+		// die anzahl der Stadträder zur aktuelle zeit soll mit der Anzahl der Stadträder zur ankunftszeit aus der Prognosen CSV gezogen werden
+		// die differenz wird berechnetund dann als return wiedergegeben.
+//		public static function makePrognose($time, $arrivalTime) {
+//
+//		    $csvFile = file(dirname(__FILE__) . '/PrognosenDummy.csv');
+//
+
+		public function toOutputArray(array $route) {
+		
+		}
+		
+		public static function toAlgArray(array $route) {
+			//liste an namen
+			$list = [];
+
+			$list[] = [$route['schedules'][0]['scheduleElements'][0]['from']['name'], true];
+			
+			foreach ($route['schedules'][0]['scheduleElements'] as $schedule) {
+				foreach ($schedule['intermediateStops'] as $stop) {
+					$list[] = [$stop['name'], false];
+				}
+				
+				$list[] = [$schedule['to']['name'], true];
+			}
+
+			return $list;
+		}
+		
+//		public static function buildNewRoute(array $route, int $inStation, int $outStation) {
+//			if ($inStation == -1) {
+//				return $route;
+//			}
+//
+//			$counter = 0;
+//			foreach ($route['schedules'][0]['scheduleElements'] as $schedule) {
+//				$blockLength = count($schedule['intermediateStops']) + 1;
+//
+//				if ($blockLength < $inStation) {
+//					$counter += $blockLength;
+//					break;
+//				} else {
+//					$schedule['dest'] =
+//				}
+//			}
+//
+//		}
 		
 		/**
 		 * Call a method in Geofox hvv api
@@ -89,55 +142,4 @@
 			
 			return $resBody;
 		}
-//
-//		protected static function mkSignature($PASS, $requestBody) {
-//			$hmac = hash_hmac('sha1', $requestBody, $PASS, true);
-//			return base64_encode($hmac);
-//		}
-		
-		// die anzahl der Stadträder zur aktuelle zeit soll mit der Anzahl der Stadträder zur ankunftszeit aus der Prognosen CSV gezogen werden
-		// die differenz wird berechnetund dann als return wiedergegeben.
-//		public static function makePrognose($time, $arrivalTime) {
-//
-//		    $csvFile = file(dirname(__FILE__) . '/PrognosenDummy.csv');
-//
-
-		public function toOutputArray(array $route) {
-		
-		}
-		
-//		public static function toAlgArray(array $route) {
-//			//liste an namen
-//			$list = [];
-//
-//			$list[] = [$route['schedules'][0]['scheduleElements'][0]['from']['name'], true];
-//			foreach ($route['schedules'][0]['scheduleElements'] as $schedule) {
-//				foreach ($schedule['intermediateStops'] as $stop) {
-//					$list[] = [$stop['name'], false];
-//				}
-//				$list[] = [$schedule['to']['name'], true];
-//			}
-//
-//			return $list;
-//		}
-		
-//		public static function buildNewRoute(array $route, int $inStation, int $outStation) {
-//			if ($inStation == -1) {
-//				return $route;
-//			}
-//
-//			$counter = 0;
-//			foreach ($route['schedules'][0]['scheduleElements'] as $schedule) {
-//				$blockLength = count($schedule['intermediateStops']) + 1;
-//
-//				if ($blockLength < $inStation) {
-//					$counter += $blockLength;
-//					break;
-//				} else {
-//					$schedule['dest'] =
-//				}
-//			}
-//
-//		}
- 
 	}
