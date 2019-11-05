@@ -35,9 +35,14 @@
 			return (array) self::executeRESTCall('checkName', $body)->results[0];
 		}
 		
-		public static function getRoute(string $startStationName, string $destinationStationName, $GTITime) {
+		public static function getRoute(string $startStationName, string $destinationStationName, $time) {
 			$startStation =  self::checkName($startStationName);
 			$destStation =   self::checkName($destinationStationName);
+			
+			$GTITime = [
+				'date'  =>  'heute',
+				'time'  =>  'jetzt'
+			];
 			
 			$body = [
 				'start'             =>  $startStation,
