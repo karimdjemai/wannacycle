@@ -61,20 +61,6 @@
 		protected  static function filterDoubles() {
 		
 		}
-		
-		
-//
-//		protected static function mkSignature($PASS, $requestBody) {
-//			$hmac = hash_hmac('sha1', $requestBody, $PASS, true);
-//			return base64_encode($hmac);
-//		}
-		
-		// die anzahl der Stadträder zur aktuelle zeit soll mit der Anzahl der Stadträder zur ankunftszeit aus der Prognosen CSV gezogen werden
-		// die differenz wird berechnetund dann als return wiedergegeben.
-//		public static function makePrognose($time, $arrivalTime) {
-//
-//		    $csvFile = file(dirname(__FILE__) . '/PrognosenDummy.csv');
-//
 
 		public function toOutputArray(array $route) {
 		
