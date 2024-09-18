@@ -1,15 +1,12 @@
 # WannaCycle
 
-...gibt Empfehlungen, Teile einer von HVV geplanten Strecke mit dem Stadtrad zu ersetzen, wenn an der Zielstation wenige Stadträder verfügbar sind.
+IOS, PHP project that fetches public transit API data to suggest the users parts of a route that could be replaced by a tour on a public bike to balance the public bike distributions of the city.
 
-# Hausaufgabe:
-- Front zu Backend anbindung
-- Frontend polishen (zb Uhrzeiten einbauen)
-- Zukunftsprognosen -> User kann verschiedene Ruten zu verschiedenen Uhrzeiten wählen
+...gibt Empfehlungen, Teile einer von HVV geplanten Strecke mit dem Stadtrad zu ersetzen, wenn an der Zielstation wenige Stadträder verfügbar sind.
 
 Aufteilung:
 Ali:        App (swift)
-Karim:      coord, server (Java)
+Karim:      coord, server (PHP)
 Korbinian:  Algorithmen
 Leo:        HVV-API
 Hamad:      Stadtrad-APIs
